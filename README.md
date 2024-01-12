@@ -165,7 +165,7 @@ float BNN::compareVectors(Eigen::Matrix<float, 4, 1> leftVec, Eigen::Matrix<floa
 
 This function returns a 0 if the vectors are the same and a 1 otherwise.
 
-This illustrates that, at least in some cases, there is a very clear and logical connection between the weights matrix used and the truth table it implements.  Each neuron can be viewed as a simple  logic element and to the extent the logic elements are performing unrelated operations they can be collectively modelled using a single weights matrix.  This a approach to parallelism dovetails very nicely with distributing the processing load across multiple small, specialized floating-point processors such as GPUs.
+This illustrates that, at least in some cases, there is a very clear and logical connection between the weights matrix used and the truth table it implements.  Each neuron can be viewed as a simple  logic element and to the extent the logic elements are performing unrelated operations they can be collectively modelled using a single weights matrix.  This approach to parallelism dovetails very nicely with distributing the processing load across multiple small, specialized floating-point processors such as GPUs.
 
 There are other operations available that will help inform the development of BNNs.  A more challenging operation that might be demonstrated is binary addition, and given the preceding it is clearly possible.  In this case, the model will perform binary addition on 2 4 element input vectors (in other words, a 4-bit binary adder).   It will exhibit the following characteristics:
 
@@ -201,7 +201,8 @@ Eigen::Matrix<float, 5, 1> BNN::4BitAdder(Eigen::Matrix<float, 4, 1> leftVec,  E
 		k++;
 	}
 	
-	// Now add the carry and determine subsequent carry for each bit of the sum, have to go 	backwards because LSD is at the back	
+	// Now add the carry and determine subsequent carry for each bit of the sum, have to go
+	// backwards because LSD is at the back	
 	for (int m = 3; m >= 0; m--)  {
 		localRet(m+1) = XORGate(lvl2Vec(m, 0), carry(m+1, 0));	 / / start with XOR
 		c1 = activate((lvl2Vec(m, 0) * 0.5) + (carry(m+1, 0) * 0.5)); //a simple AND
